@@ -1,0 +1,31 @@
+class Solution {
+    public int myAtoi(String s) {
+        if(s == null || s.isEmpty()){
+            return 0;
+        }
+        s = s.trim();
+        if(s.isEmpty()){
+            return 0;
+        }
+        int index = 0, sign = 1, total = 0;
+        int n = s.length();
+        if(index < n && (s.charAt(index) == '+' || s.charAt(index) == '-')){
+            sign = (s.charAt(index) == '-') ? -1 : 1;
+            index++;
+        }
+        while(index < n){
+            char ch = s.charAt(index);
+            if(!Character.isDigit(ch)){
+                break;
+            }
+            int digit = ch - '0';
+            if(total > (Integer.MAX_VALUE - digit) / 10){
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+            total = total * 10 + digit;
+            index++;
+
+        }
+        return total * sign;
+    }
+}
