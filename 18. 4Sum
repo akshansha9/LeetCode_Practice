@@ -1,0 +1,48 @@
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length < 4) {
+            return result; // Return an empty list if the input array has less than 4 elements
+        }
+
+        // Sort the array
+        Arrays.sort(nums);
+
+        // Iterate over the array with the first two pointers
+        for (int i = 0; i < nums.length - 3; i++) {
+            // Avoid duplicates for the first pointer
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                // Avoid duplicates for the second pointer
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+
+                // Use two pointers for the remaining part of the array
+                int left = j + 1;
+                int right = nums.length - 1;
+
+                while (left < right) {
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
+
+                    if (sum == target) {
+                        result.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+
+                        // Move the left pointer and avoid duplicates
+                        while (left < right && nums[left] == nums[left + 1]) left++;
+                        left++;
+
+                        // Move the right pointer and avoid duplicates
+                        while (left < right && nums[right] == nums[right - 1]) right--;
+                        right--;
+                    } else if (sum < target) {
+                        left++; // Move the left pointer to increase the sum
+                    } else {
+                        right--; // Move the right pointer to decrease the sum
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+}
